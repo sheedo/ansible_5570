@@ -1,0 +1,10 @@
+  - name: Downloading Hadoop
+    get_url:
+      url: 'http://apache.forsale.plus/hadoop/common/hadoop-{{hadoop_version}}/hadoop-{{hadoop_version}}.tar.gz'
+      dest: /etc/setup
+
+  - name: Extracting Hadoop   
+    unarchive:
+      src: /etc/setup/hadoop-{{hadoop_version}}.tar.gz
+      dest: /usr/local
+      remote_src: True 

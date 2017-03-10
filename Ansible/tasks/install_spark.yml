@@ -1,0 +1,10 @@
+  - name: Downloading Spark
+    get_url:
+      url: 'http://d3kbcqa49mib13.cloudfront.net/spark-{{spark_version}}-bin-hadoop2.7.tgz'
+      dest: /etc/setup
+
+  - name: Extracting Spark  
+    unarchive:
+      src: /etc/setup/spark-{{spark_version}}-bin-hadoop2.7.tgz
+      dest: /usr/local
+      remote_src: True

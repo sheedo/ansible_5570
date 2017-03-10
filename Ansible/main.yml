@@ -1,0 +1,40 @@
+---
+- hosts: webserver
+  remote_user: root
+  tasks:
+    - name: Setting Hadoop and Spark Version
+      set_fact:
+        hadoop_version: '2.7.3'
+        spark_version: '2.1.0'
+    
+    - name: Creating Setup directory
+      file: path=/etc/setup state=directory
+
+    - name: Check if Java is installed
+      stat:
+        path: /usr/java/default/jdk1.8.0_121 
+      register: java_result
+
+    - include: tasks/install_java.yml
+      when:  java_result.stat.exists == False  
+
+    - name: Check if Hadoop is installed
+      stat:
+        path: /usr/local/hadoop-{{hadoop_version}}
+      register: hadoop_result
+
+    - include: tasks/install_hadoop.yml
+      when:  hadoop_result.stat.exists == False  
+
+    - name: Check if Spark is installed
+      stat:
+        path: /usr/local/spark-{{spark_version}}-bin-hadoop2.7
+      register: spark_result
+
+    - include: tasks/install_spark.yml
+      when:  spark_result.stat.exists == False  
+
+    - name: Deleting Tarballs 
+      file:
+        state: absent
+        path: "/etc/setup/"

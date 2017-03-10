@@ -1,0 +1,15 @@
+  - name: Downloading Java-JDK
+    get_url:
+      url: 'http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz'
+      dest: /etc/setup
+      headers: "Cookie: oraclelicense=accept-securebackup-cookie"
+
+  - name: Creating Java Folder
+    file: path=/usr/java/default state=directory
+
+  - name: Extracting Java-JDK
+    unarchive:
+      src: /etc/setup/jdk-8u121-linux-x64.tar.gz
+      dest: /usr/java/default
+      remote_src: True
+     
